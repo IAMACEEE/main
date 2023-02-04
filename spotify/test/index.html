@@ -59,5 +59,6 @@
       onclick="document.getElementById('page').setAttribute('data-theme', (document.getElementById('page').getAttribute('data-theme') == 'dark' ? 'light': 'dark'));"
     ></button>
     <script src="app.js"></script>
+    <aside onclick="if(this.style.backgroundColor == 'white'){this.style.width = '100%';this.style.height = '100%';this.style.backgroundColor = 'transparent';this.style.opacity = 1;}else{this.style.backgroundColor = 'white';this.style.width = '10px';this.style.height = '10px';this.style.opacity = 0.2;}" style="overflow: hidden; width: 10px; height: 10px; background: white; position: fixed; bottom: 0; left: 0; opacity: 0.4;"><div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(30px);"><div style="color: white; font-family: monospace; font-size: 2.5rem; line-height: 4rem; letter-spacing: 0.5rem; text-align: center;">Made/Coded/Everything by Affan<br>4/2/2023 - version 0.1</div></div></aside>
   </body>
 </html>
