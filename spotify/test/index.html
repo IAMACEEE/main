@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" id="page" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      href="https://play-lh.googleusercontent.com/P2VMEenhpIsubG2oWbvuLGrs0GyyzLiDosGTg8bi8htRXg9Uf0eUtHiUjC28p1jgHzo"
+      type="image"
+    />
+    <title>Spotify</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="container-fluid">
+      <ul></ul>
+      <ul>
+        <li style="letter-spacing: 10px; font-size: 2rem">
+          <a href="#page" class="brand"><strong>SPOTIFY</strong></a>
+        </li>
+      </ul>
+      <ul></ul>
+    </nav>
+    <header class="container">
+      <div class="grid">
+        <input type="text" placeholder="Search" id="search" />
+        <select id="type">
+          <!-- <option value="multi">All</option> -->
+          <option value="tracks">Songs</option>
+          <option value="playlists">Playlists</option>
+          <option value="artists">Artists</option>
+          <option value="albums">Albums</option>
+          <option value="genres">Genres</option>
+          <option value="podcasts">Podcasts</option>
+          <option value="episodes">Episodes</option>
+          <option value="users">Profiles</option>
+        </select>
+        <button
+          onclick="search(document.getElementById('search'),document.getElementById('type'))"
+        >
+          Search
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="results">
+        
+      </div>
+    </main>
+
+    <button
+      class="contrast switcher theme-switcher"
+      onclick="document.getElementById('page').setAttribute('data-theme', (document.getElementById('page').getAttribute('data-theme') == 'dark' ? 'light': 'dark'));"
+    ></button>
+    <script src="app.js"></script>
+  </body>
+</html>

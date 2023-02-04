@@ -1,0 +1,53 @@
+:root {
+  --primary: #43a047;
+  --primary-hover: #4caf50;
+}
+
+.brand:hover {
+  color: var(--primary-hover);
+}
+
+#results a {
+  display: block;
+  /* display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center; */
+}#results a img{
+  border-radius: 12px;
+  margin-right: 1rem;
+}
+
+.switcher {
+  position: fixed;
+  right: calc(var(--spacing) / 2 + var(--scrollbar-width, 0px));
+  bottom: var(--spacing);
+  width: auto;
+  margin-bottom: 0;
+  padding: 0.75rem;
+  border-radius: 2rem;
+  box-shadow: var(--card-box-shadow);
+  line-height: 1;
+  text-align: right;
+}
+
+.switcher:hover::after {
+  transform: rotate(180deg);
+}
+
+.switcher::after {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 0.15rem solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    currentColor 0,
+    currentColor 50%,
+    transparent 50%
+  );
+  content: "";
+  vertical-align: bottom;
+  transition: transform var(--transition);
+}
