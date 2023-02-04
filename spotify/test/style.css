@@ -3,6 +3,10 @@
   --primary-hover: #4caf50;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .brand:hover {
   color: var(--primary-hover);
 }
@@ -13,9 +17,15 @@
   width: 100%;
   justify-content: space-between;
   align-items: center; */
-}#results a img{
+}
+#results a img {
   border-radius: 12px;
   margin-right: 1rem;
+  width: 64px;
+  aspect-ratio: 1/1;
+}
+#results h2 {
+  margin-top: 4rem;
 }
 
 .switcher {
