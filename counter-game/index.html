@@ -10,7 +10,6 @@
       href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
     />
     <style>
-
       body {
         display: flex;
         justify-content: center;
@@ -61,14 +60,17 @@
             <span class="" id="skip">Skip: </span>
           </div>
           <span class="grid">
-            <button value="-" onclick="changeSKip(this.value)">-</button>
-            <button value="+" onclick="changeSKip(this.value)">+</button>
+            <button value="-" onclick="changeSKip(this.value)" onmousewheel="changeSKip(this.value)" class="contrast"><b>-</b></button>
+            <button value="+" onclick="changeSKip(this.value)" onmousewheel="changeSKip(this.value)" class="contrast"><b>+</b></button>
           </span>
         </div>
         <div class="container" id="number"></div>
         <div class="grid">
-          <button value="-" onclick="changeNo(this.value)">-</button>
-          <button value="+" onclick="changeNo(this.value)">+</button>
+          <div class=""></div>
+          <div class="grid">
+            <button value="-" onclick="changeNo(this.value)" onmousewheel="changeNo(this.value)" class="contrast"><b>-</b></button>
+            <button value="+" onclick="changeNo(this.value)" onmousewheel="changeNo(this.value)" class="contrast"><b>+</b></button>
+          </div>
         </div>
       </div>
     </div>
@@ -117,39 +119,24 @@
 
     <script>
       var timeleft = 0;
-      var time = 10;
+      var time = 5 * 1000;
+      var noVal = time / 1000;
+      const timer = document.getElementById("timer");
+      timer.innerHTML = "GET TO ZERO IN " + noVal;
       var temp = setInterval(function () {
-        if (timeleft >= time * 10 || noHolder.innerHTML == "0") {
+        if (timeleft >= time || noHolder.innerHTML == "0") {
           over = true;
           clearInterval(temp);
         }
-        document.getElementById("timer").innerHTML =
-          "GET TO ZERO IN " + (time * 10 - timeleft) / 10;
-        console.log(timeleft);
-        timeleft += 1;
-        if (noHolder.innerHTML == "0") {
-          console.log("Finished");
-          noHolder.classList.add("green");
-          document.getElementById("timer").innerHTML =
-            "GET TO ZERO IN <span class='green'>" +
-            (time * 10 - timeleft) / 10 +
-            "</span>";
-          over = true;
-        }
-        if (timeleft - 1 == time * 10) {
-          if (noHolder.innerHTML == "0") {
-            console.log("Finished");
-            noHolder.classList.add("green");
-            document.getElementById("timer").innerHTML =
-              "GET TO ZERO IN <span class='green'>" +
-              (time * 10 - timeleft) / 10 +
-              "</span>";
+        timer.innerHTML = "GET TO ZERO IN " + noVal;
+        timeleft += 100;
+        noVal = (time - timeleft) / 1000;
+        if (over) {
+          if (timeleft <= time) {
+            timer.innerHTML =
+              'GET TO ZERO IN <span class="green">' + noVal + "</span>";
           } else {
-            noHolder.classList.add("red");
-            document.getElementById("timer").innerHTML =
-              "GET TO ZERO IN <span class='red'>" +
-              (time * 10 - timeleft) / 10 +
-              "</span>";
+            timer.innerHTML = 'GET TO ZERO IN <span class="red">0</span>';
           }
         }
       }, 100);
