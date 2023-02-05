@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
+    />
+    <style>
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding-bottom: 5rem;
+      }
+
+      #timer {
+        letter-spacing: 0.4rem;
+        text-align: center;
+      }
+
+      #number {
+        text-align: center;
+        border: #ffffff80 1px solid;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+        font-size: xxx-large;
+      }
+      #skip {
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        margin: auto 0;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+      }
+
+      .red {
+        color: #e53935;
+      }
+      .green {
+        color: #43a047;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="timer">GET TO ZERO IN 10</h1>
+      <div class="container">
+        <div class="grid">
+          <div class="flex">
+            <span class="" id="skip">Skip: </span>
+          </div>
+          <span class="grid">
+            <button value="-" onclick="changeSKip(this.value)">-</button>
+            <button value="+" onclick="changeSKip(this.value)">+</button>
+          </span>
+        </div>
+        <div class="container" id="number"></div>
+        <div class="grid">
+          <button value="-" onclick="changeNo(this.value)">-</button>
+          <button value="+" onclick="changeNo(this.value)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var over = false;
+      const randomBoolean = () => Math.random() >= 0.5;
+
+      var no = Math.floor(Math.random() * 30 + 1);
+      if (randomBoolean()) {
+        no = -no;
+      }
+      var skip = Math.floor(Math.random() * 10 + 1);
+      if (randomBoolean()) {
+        skip = -skip;
+      }
+      const noHolder = document.getElementById("number");
+      const skipNoHolder = document.getElementById("skip");
+      noHolder.innerHTML = no;
+      skipNoHolder.innerHTML = "skip: " + skip;
+
+      function changeNo(val) {
+        if (!over) {
+          if (val == "+") {
+            no += skip;
+            noHolder.innerHTML = no;
+          } else {
+            no -= skip;
+            noHolder.innerHTML = no;
+          }
+        }
+      }
+
+      function changeSKip(val) {
+        if (!over) {
+          if (val == "+") {
+            skip += 1;
+            skipNoHolder.innerHTML = "skip: " + skip;
+          } else {
+            skip -= 1;
+            skipNoHolder.innerHTML = "skip: " + skip;
+          }
+        }
+      }
+    </script>
+
+    <script>
+      var timeleft = 0;
+      var time = 10;
+      var temp = setInterval(function () {
+        if (timeleft >= time * 10 || noHolder.innerHTML == "0") {
+          over = true;
+          clearInterval(temp);
+        }
+        document.getElementById("timer").innerHTML =
+          "GET TO ZERO IN " + (time * 10 - timeleft) / 10;
+        console.log(timeleft);
+        timeleft += 1;
+        if (noHolder.innerHTML == "0") {
+          console.log("Finished");
+          noHolder.classList.add("green");
+          document.getElementById("timer").innerHTML =
+            "GET TO ZERO IN <span class='green'>" +
+            (time * 10 - timeleft) / 10 +
+            "</span>";
+          over = true;
+        }
+        if (timeleft - 1 == time * 10) {
+          if (noHolder.innerHTML == "0") {
+            console.log("Finished");
+            noHolder.classList.add("green");
+            document.getElementById("timer").innerHTML =
+              "GET TO ZERO IN <span class='green'>" +
+              (time * 10 - timeleft) / 10 +
+              "</span>";
+          } else {
+            noHolder.classList.add("red");
+            document.getElementById("timer").innerHTML =
+              "GET TO ZERO IN <span class='red'>" +
+              (time * 10 - timeleft) / 10 +
+              "</span>";
+          }
+        }
+      }, 100);
+    </script>
+  </body>
+</html>
