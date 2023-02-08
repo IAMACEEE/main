@@ -18,6 +18,15 @@
         padding-bottom: 5rem;
       }
 
+      #main {
+        display: none;
+        position: relative;
+      }
+
+      .no-btn {
+        font-size: 2rem;
+      }
+
       #timer {
         letter-spacing: 0.4rem;
         text-align: center;
@@ -29,18 +38,25 @@
         border-radius: 12px;
         margin-bottom: 1rem;
         padding: 0.5rem 0;
-        font-size: xxx-large;
+        font-size: 4rem;
       }
       #skip {
-        margin-bottom: 1rem;
         text-transform: uppercase;
-        letter-spacing: 5px;
-        margin: auto 0;
+        letter-spacing: 10px;
+        font-size: 1.5rem;
+        color: #ffffff;
       }
 
-      .flex {
+      .skip-container {
         display: flex;
         align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      #timer span,
+      #number {
+        transition: color 0.2s ease-in-out;
       }
 
       .red {
@@ -49,46 +65,153 @@
       .green {
         color: #43a047;
       }
+      .yellow {
+        color: #ffb300;
+      }
+
+      .fa-right-from-bracket {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+        transform: scaleX(-1);
+        transition: transform 200ms ease-out;
+      }
+      .fa-right-from-bracket:hover {
+        transform: scale(-1.1, 1.1);
+      }
+    </style>
+    <style>
+      .start-btn {
+        color: #fff;
+        font-size: 1.5rem;
+        letter-spacing: 15px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        text-align: center;
+        padding-top: 2rem;
+      }
+      .start-btn span {
+        transition: font-size 0.1s linear;
+        /* transition: all 0.1s ease-in-out; */
+      }
+      .start-btn:hover,
+      .start-btn:active {
+        color: #5ac05f;
+        font-size: 2rem;
+        letter-spacing: 90px;
+        padding-bottom: 2rem;
+        padding-top: 0rem;
+      }
+      .start-btn:hover span,
+      .start-btn:active span {
+        font-size: 4rem;
+      }
+      @media screen and (max-width: 767px) {
+        .start-btn {
+          color: #43a047;
+        }
+        .start-btn:hover,
+        .start-btn:active {
+          letter-spacing: 40px;
+        }
+
+        #main {
+          position: static;
+        }
+
+        .fa-right-from-bracket {
+          top: 50px;
+          right: 30px;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1 id="timer">GET TO ZERO IN 10</h1>
+    <div class="flex" id="start">
+      <div
+        class="start-btn"
+        onclick="start.style.display = 'none'; startTime();over=false; refresh()"
+      >
+        ‎ ST<span>A</span>RT
+      </div>
+    </div>
+    <div class="container" id="main">
+      <i
+        class="fa-solid fa-right-from-bracket"
+        onclick="time=[0];start.style.display = 'block';main.style.display = 'none';"
+      ></i>
+      <h1 id="timer">GET TO ZERO IN</h1>
       <div class="container">
         <div class="grid">
-          <div class="flex">
+          <button
+            value="-"
+            onclick="changeSKip(this.value)"
+            onmousewheel="changeSKip(this.value)"
+            class="contrast skip-btn"
+          >
+            <b>-</b>
+          </button>
+          <div class="skip-container">
             <span class="" id="skip">Skip: </span>
           </div>
-          <span class="grid">
-            <button value="-" onclick="changeSKip(this.value)" onmousewheel="changeSKip(this.value)" class="contrast"><b>-</b></button>
-            <button value="+" onclick="changeSKip(this.value)" onmousewheel="changeSKip(this.value)" class="contrast"><b>+</b></button>
-          </span>
+          <button
+            value="+"
+            onclick="changeSKip(this.value)"
+            onmousewheel="changeSKip(this.value)"
+            class="contrast skip-btn"
+          >
+            <b>+</b>
+          </button>
         </div>
         <div class="container" id="number"></div>
         <div class="grid">
-          <div class=""></div>
-          <div class="grid">
-            <button value="-" onclick="changeNo(this.value)" onmousewheel="changeNo(this.value)" class="contrast"><b>-</b></button>
-            <button value="+" onclick="changeNo(this.value)" onmousewheel="changeNo(this.value)" class="contrast"><b>+</b></button>
-          </div>
+          <button
+            value="-"
+            onclick="changeNo(this.value)"
+            onmousewheel="changeNo(this.value)"
+            class="contrast no-btn"
+          >
+            <b>-</b>
+          </button>
+          <button
+            value="+"
+            onclick="changeNo(this.value)"
+            onmousewheel="changeNo(this.value)"
+            class="contrast no-btn"
+          >
+            <b>+</b>
+          </button>
         </div>
       </div>
     </div>
+
+    <script
+      src="https://kit.fontawesome.com/5daa8eb347.js"
+      crossorigin="anonymous"
+    ></script>
 
     <script>
       var over = false;
       const randomBoolean = () => Math.random() >= 0.5;
 
-      var no = Math.floor(Math.random() * 30 + 1);
+      var no = Math.floor(Math.random() * 30 + 10);
       if (randomBoolean()) {
         no = -no;
       }
       var skip = Math.floor(Math.random() * 10 + 1);
+      while (no % skip == 0) {
+        skip = Math.floor(Math.random() * 10 + 1);
+      }
       if (randomBoolean()) {
         skip = -skip;
       }
       const noHolder = document.getElementById("number");
       const skipNoHolder = document.getElementById("skip");
+      const main = document.getElementById("main");
+      const start = document.getElementById("start");
       noHolder.innerHTML = no;
       skipNoHolder.innerHTML = "skip: " + skip;
 
@@ -115,32 +238,152 @@
           }
         }
       }
+
+      function refresh() {
+        over = false;
+
+        no = Math.floor(Math.random() * 30 + 10);
+        if (randomBoolean()) {
+          no = -no;
+        }
+        skip = Math.floor(Math.random() * 10 + 1);
+        while (no % skip == 0) {
+          skip = Math.floor(Math.random() * 10 + 1);
+        }
+        if (randomBoolean()) {
+          skip = -skip;
+        }
+        noHolder.classList.remove("red");
+        noHolder.classList.remove("green");
+      }
     </script>
 
     <script>
-      var timeleft = 0;
-      var time = 5 * 1000;
-      var noVal = time / 1000;
+      var time = [];
+      var lastDig = 2;
       const timer = document.getElementById("timer");
-      timer.innerHTML = "GET TO ZERO IN " + noVal;
-      var temp = setInterval(function () {
-        if (timeleft >= time || noHolder.innerHTML == "0") {
-          over = true;
-          clearInterval(temp);
-        }
-        timer.innerHTML = "GET TO ZERO IN " + noVal;
-        timeleft += 100;
-        noVal = (time - timeleft) / 1000;
-        if (over) {
-          if (timeleft <= time) {
-            timer.innerHTML =
-              'GET TO ZERO IN <span class="green">' + noVal + "</span>";
-          } else {
-            timer.innerHTML = 'GET TO ZERO IN <span class="red">0</span>';
+
+      function allZero(nums) {
+        for (let n = 0; n < nums.length; n++) {
+          if (nums[n] > 0) {
+            return false;
           }
         }
-      }, 100);
+        return true;
+      }
+
+      function disTime(hands) {
+        return hands[0] + "." + hands[1] + hands[2];
+      }
+      timer.innerHTML = "GET TO ZERO IN " + disTime(time);
+
+      function updateTime() {
+        var temp = setInterval(function () {
+          time[lastDig] -= 1;
+          if (time[lastDig] < 0) {
+            time[lastDig] = 9;
+            time[lastDig - 1] -= 1;
+            if (time[lastDig - 1] < 0) {
+              time[lastDig - 1] = 9;
+              time[lastDig - 2] -= 1;
+            }
+          }
+
+          console.log(time);
+          if (time[0] == 0) {
+            timer.innerHTML =
+              "GET TO ZERO IN <span class='red'>" + disTime(time) + "</span>";
+          } else if (time[0] == 1) {
+            timer.innerHTML =
+              "GET TO ZERO IN <span class='yellow'>" +
+              disTime(time) +
+              "</span>";
+          } else {
+            timer.innerHTML =
+              "GET TO ZERO IN <span>" + disTime(time) + "</span>";
+          }
+          if (allZero(time) || noHolder.innerHTML == "0") {
+            if (allZero(time)) {
+              timer.innerHTML =
+                "GET TO ZERO IN <span class='red'>" + disTime(time) + "</span>";
+              noHolder.classList.add("red");
+            } else {
+              timer.innerHTML =
+                "GET TO ZERO IN <span class='green'>" +
+                disTime(time) +
+                "</span>";
+              noHolder.classList.add("green");
+            }
+            over = true;
+            clearInterval(temp);
+          }
+        }, 10);
+      }
+
+      function startTime() {
+        main.style.display = "block";
+        time = [5, 0, 0];
+        setCount = 3;
+        timer.innerHTML =
+          "STARTING IN <span class='yellow'>" + setCount + ".00</span>";
+        noHolder.innerHTML = '<span class="yellow">' + setCount + "</span>";
+        skipNoHolder.innerHTML = '<span class="yellow">' + setCount + "</span>";
+
+        var countDown = setInterval(function () {
+          setCount -= 1;
+          timer.innerHTML =
+            "STARTING IN <span class='yellow'>" + setCount + ".00</span>";
+          noHolder.innerHTML = '<span class="yellow">' + setCount + "</span>";
+
+          skipNoHolder.innerHTML =
+            '<span class="yellow">' + setCount + "</span>";
+
+          if (setCount < 0) {
+            noHolder.innerHTML = no;
+            skipNoHolder.innerHTML = "skip: " + skip;
+
+            updateTime();
+            clearInterval(countDown);
+          }
+        }, 1000);
+      }
     </script>
-    <aside onclick="if(this.style.backgroundColor == 'white'){this.style.width = '100%';this.style.height = '100%';this.style.backgroundColor = 'transparent';this.style.opacity = 1;}else{this.style.backgroundColor = 'white';this.style.width = '10px';this.style.height = '10px';this.style.opacity = 0.2;}" style="overflow: hidden; width: 10px; height: 10px; background: white; position: fixed; bottom: 0; left: 0; opacity: 0.4;"><div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(30px);"><div style="color: white; font-family: monospace; font-size: 2.5rem; line-height: 4rem; letter-spacing: 0.5rem; text-align: center;">Made/Coded/Everything by Affan<br>4/2/2023 - version 0.1</div></div></aside>
+    <aside
+      onclick="if(this.style.backgroundColor == 'white'){this.style.width = '100%';this.style.height = '100%';this.style.backgroundColor = 'transparent';this.style.opacity = 1;}else{this.style.backgroundColor = 'white';this.style.width = '10px';this.style.height = '10px';this.style.opacity = 0.2;}"
+      style="
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        background: white;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        opacity: 0.4;
+      "
+    >
+      <div
+        style="
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          backdrop-filter: blur(30px);
+        "
+      >
+        <div
+          style="
+            color: white;
+            font-family: monospace;
+            font-size: 2.5rem;
+            line-height: 4rem;
+            letter-spacing: 0.5rem;
+            text-align: center;
+          "
+        >
+          Made/Coded/Everything by Affan<br />4/2/2023 - version 0.2
+        </div>
+      </div>
+    </aside>
   </body>
 </html>
